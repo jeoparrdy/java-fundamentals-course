@@ -11,13 +11,38 @@ import com.bobocode.util.ExerciseNotCompletedException;
  */
 public class LinkedQueue<T> implements Queue<T> {
 
+    public static class Node<T> {
+        private T element;
+        public Node<T> next;
+
+        public static <T> Node<T> valueOf(T element) {
+            return new Node<>(element);
+        }
+
+        public Node(T element){
+            this.element = element;
+        }
+
+    }
+
+    public Node<T> head;
+    public Node<T> tail;
+    public int size;
+
     /**
      * Adds an element to the end of the queue.
      *
      * @param element the element to add
      */
     public void add(T element) {
-        throw new ExerciseNotCompletedException(); // todo: implement this method
+        Node<T> newNode = Node.valueOf(element);
+        if(head == null) {
+            head = tail = newNode;
+        }else{
+            tail.next = newNode;
+            tail = newNode;
+        }
+        size++;
     }
 
     /**
@@ -26,7 +51,15 @@ public class LinkedQueue<T> implements Queue<T> {
      * @return an element that was retrieved from the head or null if queue is empty
      */
     public T poll() {
-        throw new ExerciseNotCompletedException(); // todo: implement this method
+        if (head !=null) {
+            T removedElement = head.element;
+            head = head.next;
+            size--;
+            return removedElement;
+
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -35,7 +68,7 @@ public class LinkedQueue<T> implements Queue<T> {
      * @return an integer value that is a size of queue
      */
     public int size() {
-        throw new ExerciseNotCompletedException(); // todo: implement this method
+        return size;
     }
 
     /**
@@ -44,6 +77,6 @@ public class LinkedQueue<T> implements Queue<T> {
      * @return {@code true} if the queue is empty, returns {@code false} if it's not
      */
     public boolean isEmpty() {
-        throw new ExerciseNotCompletedException(); // todo: implement this method
+       return size==0;
     }
 }
