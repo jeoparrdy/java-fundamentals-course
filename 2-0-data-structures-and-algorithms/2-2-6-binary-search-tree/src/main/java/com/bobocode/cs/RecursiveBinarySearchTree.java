@@ -3,6 +3,7 @@ package com.bobocode.cs;
 import com.bobocode.util.ExerciseNotCompletedException;
 
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public class RecursiveBinarySearchTree<T extends Comparable<T>> implements BinarySearchTree<T> {
 
@@ -17,10 +18,12 @@ public class RecursiveBinarySearchTree<T extends Comparable<T>> implements Binar
     }
 
     private Node<T> root;
-    private int size;
+    private int size=0;
 
     public static <T extends Comparable<T>> RecursiveBinarySearchTree<T> of(T... elements) {
-        throw new ExerciseNotCompletedException();
+       RecursiveBinarySearchTree<T> bst = new RecursiveBinarySearchTree<>();
+        Stream.of(elements).forEach(bst::insert);
+        return bst;
     }
 
     @Override
@@ -95,6 +98,14 @@ public class RecursiveBinarySearchTree<T extends Comparable<T>> implements Binar
 
     @Override
     public void inOrderTraversal(Consumer<T> consumer) {
-        throw new ExerciseNotCompletedException();
+        inOrderTraversal(root, consumer);
+    }
+
+    private void inOrderTraversal(Node<T> current, Consumer<T> consumer){
+        if (current != null){
+            inOrderTraversal(current.left, consumer);
+            consumer.accept(current.element);
+            inOrderTraversal(current.right, consumer);
+        }
     }
 }
