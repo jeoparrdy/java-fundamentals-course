@@ -13,6 +13,11 @@ public class Functions {
      */
     public static FunctionMap<Integer, Integer> intFunctionMap() {
         FunctionMap<Integer, Integer> intFunctionMap = new FunctionMap<>();
+        intFunctionMap.addFunction("increment", i -> i+1);
+        intFunctionMap.addFunction("decrement", i -> i-1);
+        intFunctionMap.addFunction("square", a -> a*a);
+        intFunctionMap.addFunction("abs", b -> Math.abs(b));
+        intFunctionMap.addFunction("sgn", b -> Integer.signum(b));
 
         // todo: add simple functions to the function map (abs, sgn, increment, decrement, square)
 
