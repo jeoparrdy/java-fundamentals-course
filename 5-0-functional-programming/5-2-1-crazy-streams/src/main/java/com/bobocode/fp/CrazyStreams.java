@@ -1,12 +1,18 @@
 package com.bobocode.fp;
 
+import com.bobocode.fp.exception.EntityNotFoundException;
 import com.bobocode.model.Account;
+import com.bobocode.model.Sex;
 import com.bobocode.util.ExerciseNotCompletedException;
 import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.Month;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.*;
 
 /**
  * {@link CrazyStreams} is an exercise class. Each method represent some operation with a collection of accounts that
@@ -25,7 +31,7 @@ public class CrazyStreams {
      * @return account with max balance wrapped with optional
      */
     public Optional<Account> findRichestPerson() {
-        throw new ExerciseNotCompletedException();
+        return accounts.stream().max(comparing(Account::getBalance));
     }
 
     /**
@@ -35,7 +41,10 @@ public class CrazyStreams {
      * @return a list of accounts
      */
     public List<Account> findAccountsByBirthdayMonth(Month birthdayMonth) {
-        throw new ExerciseNotCompletedException();
+        return accounts.stream()
+                .filter(account -> account.getBirthday()
+                        .getMonth().equals(birthdayMonth))
+                .collect(toList());
     }
 
     /**
@@ -45,7 +54,8 @@ public class CrazyStreams {
      * @return a map where key is true or false, and value is list of male, and female accounts
      */
     public Map<Boolean, List<Account>> partitionMaleAccounts() {
-        throw new ExerciseNotCompletedException();
+        return accounts.stream()
+                .collect(partitioningBy(account -> account.getSex().equals(Sex.MALE)));
     }
 
     /**
@@ -55,7 +65,8 @@ public class CrazyStreams {
      * @return a map where key is an email domain and value is a list of all account with such email
      */
     public Map<String, List<Account>> groupAccountsByEmailDomain() {
-        throw new ExerciseNotCompletedException();
+        return accounts.stream()
+                .collect(groupingBy(a -> a.getEmail().split("@")[1]));
     }
 
     /**
